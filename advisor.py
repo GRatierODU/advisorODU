@@ -428,19 +428,19 @@ def feedback_validation_agent(state: AgentState) -> AgentState:
     )
     # Ensure the file exists and is properly initialized
     if (
-        not os.path.exists("feedback_data.json")
-        or os.path.getsize("feedback_data.json") == 0
+        not os.path.exists("./data/feedback_data.json")
+        or os.path.getsize("./data/feedback_data.json") == 0
     ):
         # Create the file and initialize it with an empty list
-        with open("feedback_data.json", "w") as f:
+        with open("./data/feedback_data.json", "w") as f:
             json.dump([], f)
 
     # Load existing data safely
     try:
-        with open("feedback_data.json", "r") as f:
+        with open("./data/feedback_data.json", "r") as f:
             feedback_list = json.load(f)  # Load existing JSON data
     except json.JSONDecodeError:
-        logger.warning(f"{"feedback_data.json"} is invalid. Reinitializing as empty.")
+        logger.warning(f"{"./data/feedback_data.json"} is invalid. Reinitializing as empty.")
         feedback_list = []  # Reset to empty if the file is malformed
 
     feedback_history = "\n".join(

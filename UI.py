@@ -27,8 +27,8 @@ class ChatbotApp:
         self.root.title("ODU Academic Advisor AI")
 
         # Load avatars
-        self.user_avatar = tk.PhotoImage(file="user_avatar.png")
-        self.ai_avatar = tk.PhotoImage(file="ai_avatar.png")
+        self.user_avatar = tk.PhotoImage(file="./images/user_avatar.png")
+        self.ai_avatar = tk.PhotoImage(file="./images/ai_avatar.png")
 
         # Enable resizing
         self.root.rowconfigure(0, weight=1)
@@ -115,7 +115,7 @@ class ChatbotApp:
         self.workflow = build_workflow()
 
         # Draw workflow
-        self.workflow.get_graph().draw_mermaid_png(output_file_path="graph.png")
+        self.workflow.get_graph().draw_mermaid_png(output_file_path="./images/graph.png")
 
         self.current_ai_response = None  # Keep track of the current AI response
 
@@ -278,7 +278,7 @@ class ChatbotApp:
     # Save both good and bad feedback
     def save_feedback(self, feedback_data):
         """Save feedback to a JSON file."""
-        feedback_file = "feedback_data.json"
+        feedback_file = "./data/feedback_data.json"
 
         # Ensure the file exists and is properly initialized
         if not os.path.exists(feedback_file) or os.path.getsize(feedback_file) == 0:

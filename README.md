@@ -84,7 +84,6 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 
 - **Name**: Guillaume Ratier
 - **Email**: grati001@odu.edu
-- **GitHub**: [your-username](https://github.com/GRatierODU)
 
 ---
 

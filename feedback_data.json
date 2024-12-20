@@ -1,0 +1,8 @@
+[
+    {
+        "question": "what bachelors are available",
+        "answer": "College of Arts & Letters:\n- Communication\n- English\n- History\n- Philosophy\n- World Languages & Cultures\n- Music\n- Theatre & Dance\n\nStrome College of Business:\n- Accounting\n- Business Analytics\n- Economics\n- Finance\n- Information Technology\n- Management\n- Marketing\n\nDarden College of Education & Professional Studies:\n- Human Services\n- Exercise Science\n- Sport Management\n- Industrial Technology\n\nBatten College of Engineering & Technology:\n- Civil Engineering\n- Computer Engineering\n- Electrical Engineering\n- Mechanical Engineering\n- Systems Engineering\n\nCollege of Sciences:\n- Biology\n- Chemistry\n- Computer Science\n- Mathematics\n- Physics\n- Psychology\n\nCollege of Health Sciences:\n- Dental Hygiene\n- Medical Laboratory Science\n- Nursing\n- Public Health",
+        "feedback": 3,
+        "reason": "missing interdisciplinary college"
+    }
+]

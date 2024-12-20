@@ -14,19 +14,6 @@ ODU Academic Advisor AI is a user-friendly, intelligent RAG chatbot designed to 
 
 ---
 
-## Technologies Used
-
-- **Programming Language**: Python
-- **Machine Learning**:
-  - [LangChain](https://langchain.com) for building AI workflows
-  - [SentenceTransformers](https://www.sbert.net) for vector-based similarity search
-  - AWS Bedrock for deploying the LLM (Claude-3.5 Sonnet v2 by Anthropic)
-- **Web Scraping**: BeautifulSoup for extracting program data from the [ODU catalog](https://catalog.odu.edu/programs/).
-- **GUI**: Tkinter for the chatbot interface.
-- **Caching**: Diskcache for storing program data.
-
----
-
 ## Graph Visualization
 
 ![](./graph.png)

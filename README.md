@@ -8,6 +8,7 @@ ODU Academic Advisor AI is a user-friendly, intelligent RAG chatbot designed to 
 
 - **Program Information Retrieval**: Provides detailed information about ODU programs, including undergraduate and graduate offerings.
 - **Feedback Integration**: Users can rate chatbot responses on a scale of 1 to 5 and optionally provide written feedback to better future responses.
+- **Dynamic Routing**: Determines the most relevant knowledge base using vector-based similarity search and AI-driven suggestions.
 - **Memory Context**: Retains conversation history to provide consistent, context-aware answers.
 - **Caching Mechanism**: Reduces response time by caching program information for one week.
 - **Interactive UI**: Simple and intuitive GUI for seamless interaction.

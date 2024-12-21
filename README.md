@@ -17,7 +17,7 @@ ODU Academic Advisor AI is a user-friendly, intelligent RAG chatbot designed to 
 
 ## Demo
 
-![Demo Video](./images/demo.mkv)
+![Demo Video](./images/demo.mp4)
 
 ---
 

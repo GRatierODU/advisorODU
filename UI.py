@@ -1,6 +1,4 @@
-from langchain_core.runnables.graph import MermaidDrawMethod
 from advisor import build_workflow, AgentState
-from IPython.display import Image
 from threading import Thread
 from tkinter import ttk
 import tkinter as tk
@@ -16,6 +14,38 @@ logging.basicConfig(
     level=logging.INFO, format="%(asctime)s %(levelname)s:  %(message)s"
 )
 logger = logging.getLogger(__name__)
+
+
+# ----------------------------------
+# Loading Animation
+# ----------------------------------
+class LoadingSpinner:
+    def __init__(self, parent):
+        self.parent = parent
+        self.label = tk.Label(
+            parent, text="", font=("Courier New", 24), fg="black"
+        )  # Larger font and black text
+        self.frames = ["|", "/", "-", "\\"]
+        self.current_frame = 0
+        self.running = False
+
+    def start(self):
+        self.running = True
+        self.label.place(
+            relx=0.05, rely=0.88, anchor="center"
+        )  # Centered between input and border
+        self.animate()
+
+    def stop(self):
+        self.running = False
+        self.label.place_forget()
+
+    def animate(self):
+        if self.running:
+            frame = self.frames[self.current_frame]
+            self.label.config(text=frame)
+            self.current_frame = (self.current_frame + 1) % len(self.frames)
+            self.parent.after(100, self.animate)  # Update every 100ms
 
 
 # ----------------------------------
@@ -67,6 +97,13 @@ class ChatbotApp:
 
         self.chat_display.config(yscrollcommand=self.scrollbar.set)
 
+        # Input frame for spinner and input text
+        input_frame = ttk.Frame(root)
+        input_frame.grid(row=1, column=0, padx=10, pady=10, sticky="w")
+
+        # Spinner for AI processing
+        self.spinner = LoadingSpinner(self.root)
+
         # User input field
         self.user_input = tk.Entry(root, width=70, font=("Arial", 12))
         self.user_input.grid(row=1, column=0, padx=10, pady=10)
@@ -115,7 +152,9 @@ class ChatbotApp:
         self.workflow = build_workflow()
 
         # Draw workflow
-        self.workflow.get_graph().draw_mermaid_png(output_file_path="./images/graph.png")
+        self.workflow.get_graph().draw_mermaid_png(
+            output_file_path="./images/graph.png"
+        )
 
         self.current_ai_response = None  # Keep track of the current AI response
 
@@ -127,6 +166,21 @@ class ChatbotApp:
     # Method to update slider value label
     def update_slider_label(self, value):
         self.slider_value_label.config(text=int(float(value)))
+
+    # Method to enable/disable input and start/stop spinnerdef toggle_input(self, enable):
+    def toggle_input(self, enable):
+        if enable:
+            self.user_input.config(state="normal")
+            self.user_input.delete(0, tk.END)  # Clear "Thinking..."
+            self.send_button.config(state="normal")
+            self.spinner.stop()  # Stop the spinner animation
+        else:
+            self.user_input.config(state="normal")  # Temporarily enable to insert text
+            self.user_input.delete(0, tk.END)
+            self.user_input.insert(0, "Thinking...")  # Insert "Thinking..."
+            self.user_input.config(state="disabled")  # Disable again
+            self.send_button.config(state="disabled")
+            self.spinner.start()  # Start the spinner animation
 
     # Add message to chat display
     def add_chat_message(self, sender, message):
@@ -159,7 +213,7 @@ class ChatbotApp:
             self.user_input.delete(0, tk.END)
 
             self.add_chat_message("AI", "Typing...")
-            self.send_button.config(state="disabled")
+            self.toggle_input(False)  # Disable input and start spinner
             Thread(target=self.get_ai_response, args=(user_message,)).start()
 
     # Process the user message and fetch AI response
@@ -174,12 +228,6 @@ class ChatbotApp:
             self.memory.append({"type": "human", "content": user_message})
             state = AgentState(
                 user_input=user_message,
-                selected_level=None,
-                selected_school=None,
-                selected_program_links=None,
-                scraped_data=None,
-                answer=None,
-                revised_answer=None,
                 memory=self.memory,
             )
             output = self.workflow.invoke(state)
@@ -193,6 +241,7 @@ class ChatbotApp:
                 "AI", "Sorry, something went wrong. Please try again."
             )
         finally:
+            self.toggle_input(True)  # Disable input and start spinner
             self.submit_feedback_button.config(state="normal")
 
     def stream_response(self, sender, response, delay=100):
@@ -200,7 +249,9 @@ class ChatbotApp:
         # Insert the avatar and prefix first
         self.chat_display.configure(state="normal")
         self.chat_display.image_create(tk.END, image=self.ai_avatar)  # Add avatar
-        self.chat_display.insert(tk.END, f" {sender}: ", "ai")  # Add prefix
+        self.chat_display.insert(
+            tk.END, f" {sender}:\n", "ai"
+        )  # Add prefix and newline
         self.chat_display.configure(state="disabled")
         self.chat_display.see(tk.END)
 
@@ -218,8 +269,10 @@ class ChatbotApp:
                 # Schedule the next chunk
                 self.root.after(delay, stream_chunk, i + 1)
             else:
-                # Complete streaming and enable feedback
+                # Ensure proper spacing after completing streaming
+                self.chat_display.configure(state="normal")
                 self.chat_display.insert(tk.END, "\n\n", "ai")
+                self.chat_display.configure(state="disabled")
                 self.submit_feedback_button.config(state="normal")
 
         # Start streaming

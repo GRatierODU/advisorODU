@@ -2,7 +2,25 @@
     {
         "question": "what bachelors are available",
         "answer": "College of Arts & Letters:\n- Communication\n- English\n- History\n- Philosophy\n- World Languages & Cultures\n- Music\n- Theatre & Dance\n\nStrome College of Business:\n- Accounting\n- Business Analytics\n- Economics\n- Finance\n- Information Technology\n- Management\n- Marketing\n\nDarden College of Education & Professional Studies:\n- Human Services\n- Exercise Science\n- Sport Management\n- Industrial Technology\n\nBatten College of Engineering & Technology:\n- Civil Engineering\n- Computer Engineering\n- Electrical Engineering\n- Mechanical Engineering\n- Systems Engineering\n\nCollege of Sciences:\n- Biology\n- Chemistry\n- Computer Science\n- Mathematics\n- Physics\n- Psychology\n\nCollege of Health Sciences:\n- Dental Hygiene\n- Medical Laboratory Science\n- Nursing\n- Public Health",
-        "feedback": 3,
-        "reason": "missing interdisciplinary college"
+        "feedback": 2,
+        "reason": "missing cybersecurity, data science and maritime management, they are all in interdisciplinary school"
+    },
+    {
+        "question": "what bachelors are there",
+        "answer": "College of Arts & Letters:\nCommunication, English, History, Philosophy, World Languages & Cultures, Music, Theatre & Dance\n\nStrome College of Business:\nAccounting, Business Analytics, Economics, Finance, Information Technology, Management, Marketing\n\nDarden College of Education & Professional Studies:\nHuman Services, Exercise Science, Sport Management, Industrial Technology\n\nBatten College of Engineering & Technology:\nCivil Engineering, Computer Engineering, Electrical Engineering, Mechanical Engineering, Modeling & Simulation Engineering\n\nCollege of Sciences:\nBiology, Chemistry, Computer Science, Mathematics, Physics, Psychology\n\nCollege of Health Sciences:\nDental Hygiene, Medical Laboratory Science, Nursing, Public Health\n\nSchool of Cybersecurity:\nCybersecurity\n\nInterdisciplinary Programs:\nData Science, Maritime and Supply Chain Management",
+        "feedback": 4,
+        "reason": "cybsecurity is part of interdisciplinary"
+    },
+    {
+        "question": "what bachelors are there",
+        "answer": "College of Arts & Letters:\nCommunication, English, History, Philosophy, World Languages & Cultures, Music, Theatre & Dance, Criminal Justice\n\nStrome College of Business:\nAccounting, Business Analytics, Economics, Finance, Information Technology, Management, Marketing\n\nDarden College of Education & Professional Studies:\nHuman Services, Exercise Science, Sport Management, Industrial Technology, Fashion Merchandising\n\nBatten College of Engineering & Technology:\nCivil Engineering, Computer Engineering, Electrical Engineering, Mechanical Engineering, Modeling & Simulation Engineering\n\nCollege of Sciences:\nBiology, Chemistry, Computer Science, Mathematics, Physics, Psychology, Ocean & Earth Sciences\n\nCollege of Health Sciences:\nDental Hygiene, Medical Laboratory Science, Nursing, Public Health, Speech-Language Pathology\n\nInterdisciplinary Programs:\nCybersecurity, Data Science, Maritime and Supply Chain Management",
+        "feedback": 5,
+        "reason": ""
+    },
+    {
+        "question": "what bachelors are there",
+        "answer": "College of Arts & Letters:\nCommunication, English, History, Philosophy, World Languages & Cultures, Music, Theatre & Dance, Criminal Justice\n\nStrome College of Business:\nAccounting, Business Analytics, Economics, Finance, Information Technology, Management, Marketing\n\nDarden College of Education & Professional Studies:\nHuman Services, Exercise Science, Sport Management, Industrial Technology, Fashion Merchandising\n\nBatten College of Engineering & Technology:\nCivil Engineering, Computer Engineering, Electrical Engineering, Mechanical Engineering, Modeling & Simulation Engineering\n\nCollege of Sciences:\nBiology, Chemistry, Computer Science, Mathematics, Physics, Psychology, Ocean & Earth Sciences\n\nCollege of Health Sciences:\nDental Hygiene, Medical Laboratory Science, Nursing, Public Health, Speech-Language Pathology\n\nInterdisciplinary Programs:\nCybersecurity, Data Science, Maritime and Supply Chain Management",
+        "feedback": 5,
+        "reason": "perfect answer!"
     }
 ]

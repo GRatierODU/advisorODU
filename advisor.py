@@ -387,8 +387,9 @@ def revision_agent(state: AgentState) -> AgentState:
         [
             (
                 "system",
-                "You are an academic advisor AI specializing in ODU programs. "
-                "Revise the given answer so that it provides **only the final answer** without any reasoning, preamble, or additional explanations. "
+                "You are an academic advisor AI specializing in ODU programs."
+                "Revise the given answer so that it provides **only the final answer** without any reasoning, preamble, or additional explanations."
+                "Use the feedback provided as well as the relevant data, you also have feedback scores and reasons from previous questions and answers where 1 is the worst answer possible and 5 is a perfectr one"
                 "The response should begin immediately with the information requested.",
             ),
             (
@@ -396,15 +397,39 @@ def revision_agent(state: AgentState) -> AgentState:
                 "Revise the answer given to this question: {question}\n"
                 "Answer: {answer}\n"
                 "Feedback for revision: {reflection}\n"
-                "Relevant Data:\n{data}",
+                "Relevant Data:\n{data}\n"
+                "Previous Feedback:\n{feedback_history}",
             ),
         ]
+    )
+    # Ensure the file exists and is properly initialized
+    if (
+        not os.path.exists("./data/feedback_data.json")
+        or os.path.getsize("./data/feedback_data.json") == 0
+    ):
+        # Create the file and initialize it with an empty list
+        with open("./data/feedback_data.json", "w") as f:
+            json.dump([], f)
+
+    # Load existing data safely
+    try:
+        with open("./data/feedback_data.json", "r") as f:
+            feedback_list = json.load(f)  # Load existing JSON data
+    except json.JSONDecodeError:
+        logger.warning(
+            f"{"./data/feedback_data.json"} is invalid. Reinitializing as empty."
+        )
+        feedback_list = []  # Reset to empty if the file is malformed
+    feedback_history = "\n".join(
+        f"User: {feedback['question']}\nAI: {feedback['answer']}\nFeedback Score: {feedback['feedback']}\nReason for Score: {feedback['reason']}"
+        for feedback in feedback_list
     )
     formatted_prompt = prompt.format_messages(
         question=state["user_input"],
         answer=state["answer"],
         reflection=state["reflection"],
         data=state["scraped_data"],
+        feedback_history=feedback_history,
     )
     response = llm.invoke(formatted_prompt)
     state["revised_answer"] = response.content
@@ -426,21 +451,14 @@ def feedback_validation_agent(state: AgentState) -> AgentState:
             ),
         ]
     )
-    # Ensure the file exists and is properly initialized
-    if (
-        not os.path.exists("./data/feedback_data.json")
-        or os.path.getsize("./data/feedback_data.json") == 0
-    ):
-        # Create the file and initialize it with an empty list
-        with open("./data/feedback_data.json", "w") as f:
-            json.dump([], f)
-
     # Load existing data safely
     try:
         with open("./data/feedback_data.json", "r") as f:
             feedback_list = json.load(f)  # Load existing JSON data
     except json.JSONDecodeError:
-        logger.warning(f"{"./data/feedback_data.json"} is invalid. Reinitializing as empty.")
+        logger.warning(
+            f"{"./data/feedback_data.json"} is invalid. Reinitializing as empty."
+        )
         feedback_list = []  # Reset to empty if the file is malformed
 
     feedback_history = "\n".join(
@@ -542,7 +560,7 @@ def build_workflow():
         feedback_checker,
         {
             "feedback_pass": "final_checker",
-            "feedback_fail": "feedback_checker",
+            "feedback_fail": "reviser",
         },
     )
 

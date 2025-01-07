@@ -30,7 +30,7 @@ ODU Academic Advisor AI is a user-friendly, intelligent RAG chatbot designed to 
 ## Prerequisites
 
 1. **Python**: Ensure Python 3.8+ is installed.
-2. **AWS Credentials**: Set up AWS access keys for Bedrock in a `.env` file.
+2. **Nvidia Credentials**: Get an Nvidia API key in a `.env` file (ex: [Nemotron 4 340b instruct](https://build.nvidia.com/nvidia/nemotron-4-340b-instruct)).
 3. **Install Dependencies**: Install required Python packages using `pip`.
 
 ```bash
@@ -42,9 +42,7 @@ pip install -r requirements.txt
 Create a `.env` file in the project directory with the following:
 
 ```
-AWS_ACCESS_KEY_ID=your-access-key
-AWS_SECRET_ACCESS_KEY=your-secret-key
-AWS_SESSION_TOKEN=your-session-token
+NVIDIA_API_KEY=your-api-key
 ```
 
 ---

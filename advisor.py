@@ -1,10 +1,10 @@
 from sentence_transformers import SentenceTransformer, util
 from langchain_core.output_parsers import StrOutputParser
 from typing import TypedDict, List, Optional, Literal
+from langchain_nvidia_ai_endpoints import ChatNVIDIA
 from langchain_core.prompts import PromptTemplate
 from langchain.prompts import ChatPromptTemplate
 from langgraph.graph import StateGraph, END
-from langchain_aws import ChatBedrock
 from urllib.parse import urljoin
 from dotenv import load_dotenv
 from bs4 import BeautifulSoup
@@ -12,7 +12,6 @@ from diskcache import Cache
 import requests
 import logging
 import hashlib
-import boto3
 import json
 import os
 
@@ -27,30 +26,20 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # ----------------------------------
-# AWS Bedrock Configuration
+# Nvidia Configuration
 # ----------------------------------
-# Set up AWS Bedrock client for the language model (LLM) using boto3.
-# Ensure the AWS credentials are configured correctly.
-bedrock_runtime = boto3.client(
-    "bedrock-runtime",
-    region_name="us-east-1",
-    aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
-    aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
-    aws_session_token=os.getenv("AWS_SESSION_TOKEN"),
-)
-
-
-# Initialize the Bedrock-based language model
-def get_bedrock_llm():
-
-    return ChatBedrock(
-        client=bedrock_runtime,
-        model_id="us.anthropic.claude-3-5-sonnet-20241022-v2:0",
-        model_kwargs=dict(temperature=0),
+def get_nvidia_llm():
+    return ChatNVIDIA(
+        model="nvidia/nemotron-4-340b-instruct",
+        api_key=os.getenv("NVIDIA_API_KEY"),
+        temperature=0.2,
+        top_p=0.7,
+        stream=False,
     )
 
 
-llm = get_bedrock_llm()
+# Initialize the Bedrock-based language model
+llm = get_nvidia_llm()
 
 # SentenceTransformer for vector-based similarity
 embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
@@ -236,13 +225,13 @@ def routing_agent(state: AgentState) -> AgentState:
         [
             (
                 "system",
-                "You are an academic advisor AI for Old Dominion University (ODU). "
+                "You are an academic advisor AI for Old Dominion University (ODU)."
                 "Based on the user's query and using the current conversation history, determine the following:"
                 "\n1. Program level: 'undergraduate' or 'graduate'."
                 "\n2. School: Select from ['Arts & Letters', 'Business', 'Education', 'Sciences', 'Engineering & Technology', "
                 "'Health Sciences', 'Nursing', 'Interdisciplinary']."
                 "\n3. Specific program name as closely as possible (e.g., 'Data Science BS', 'Nursing MS')."
-                "Return only a JSON object with the keys: 'level', 'school', 'program'.",
+                "Return only a JSON object with the keys: 'level', 'school', 'program'. No note, preamble or explanation will be accepted.",
             ),
             (
                 "human",
